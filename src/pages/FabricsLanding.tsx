@@ -68,6 +68,11 @@ const FabricsLanding = () => {
     "Полный цикл: производство, доставка, таможня, юр. и финансовые документы"
   ];
 
+  const vygody = [
+    "Подготовим полный «белый» пакет документов для таможни и маркетплейсов",
+    "Договоримся с заводом о выпуске маленькой партии под ваши условия"
+  ];
+
   const testimonials = [
     {
       text: "На Садоводе брали оптом, но сроки и качество постоянно подводили. Через DragonWise нашли фабрику, заказали пробную партию — качество огонь, доставка быстрее, а цена ниже почти на треть. Больше в Москву за товаром не езжу.",
@@ -199,6 +204,29 @@ const FabricsLanding = () => {
                   <div className="flex items-start gap-3">
                     <CheckCircle className="w-6 h-6 text-red-600 mt-1 flex-shrink-0" />
                     <p className="text-gray-800 font-medium leading-relaxed">{benefit}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Vygody Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+              Выгоды
+            </h2>
+          </div>
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-6">
+              {vygody.map((item, index) => (
+                <div key={index} className="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6 border-l-4 border-red-600 hover:shadow-lg transition-all duration-300">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-red-600 mt-1 flex-shrink-0" />
+                    <p className="text-gray-800 font-medium leading-relaxed">{item}</p>
                   </div>
                 </div>
               ))}
