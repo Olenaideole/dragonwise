@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Mail, Clock, MessageSquare, Star, Shield, Users, Eye, UserCheck, Headphones, TrendingUp, CheckCircle, Quote } from 'lucide-react';
-import logoUrl from '../create-logo-of-logistic-company-named---dragonwise.png';
 
 const FabricsLanding = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -106,7 +105,7 @@ const FabricsLanding = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-center">
             <img 
-              src={logoUrl}
+              src="/logo-dragonwise.png"
               alt="DragonWise Logo" 
               className="h-20 w-auto"
             />
