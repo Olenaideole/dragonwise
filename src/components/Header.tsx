@@ -60,7 +60,7 @@ const Header = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <img 
-              src="/create-logo-of-logistic-company-named---dragonwise.png" 
+              src="/logo-dragonwise.png"
               alt="DragonWise Logo" 
               className="h-20 w-auto"
             />
