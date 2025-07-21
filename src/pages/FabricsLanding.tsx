@@ -42,21 +42,35 @@ const FabricsLanding = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.phone.trim()) {
-      setIsSubmitted(true);
-      setTimeout(() => {
-        setIsFormOpen(false);
-        setIsSubmitted(false);
-        setFormData({
-          name: '',
-          description: '',
-          phone: '',
-          email: '',
-          telegram: ''
-        });
-      }, 3000);
+
+    const form = e.target as HTMLFormElement;
+    const data = new FormData(form);
+
+    try {
+      const response = await fetch("https://formspree.io/f/xnnzjlyp", {
+        method: "POST",
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => {
+          setIsFormOpen(false);
+          setIsSubmitted(false);
+        }, 3000);
+      } else {
+        // Handle errors if formspree returns an error
+        alert("There was an error submitting the form.");
+      }
+    } catch (error) {
+      // Handle network errors
+      alert("There was a network error.");
     }
   };
 
@@ -142,7 +156,7 @@ const FabricsLanding = () => {
             </div>
 
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              Полный расчет производства ткани в Китае, а также доставки и таможни — <span className="text-yellow-400">бесплатно</span>
+              Полный расчет производства из текстиля в Китае, а также доставки и таможни — <span className="text-yellow-400">бесплатно</span>
             </h1>
             
             <p className="text-xl md:text-2xl mb-8 text-red-100 leading-relaxed max-w-3xl mx-auto">
@@ -164,7 +178,7 @@ const FabricsLanding = () => {
                   <MapPin className="w-6 h-6 text-yellow-400" />
                   <h3 className="text-xl font-semibold">Москва</h3>
                 </div>
-                <p className="text-red-200">ул. Пречистенка 4 стр 2</p>
+                <p className="text-red-200">ул. Пречистенка 5 стр 2</p>
               </div>
 
               <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
@@ -390,21 +404,20 @@ const FabricsLanding = () => {
               
               <div className="space-y-6 mb-8">
                 <div className="flex items-center gap-4">
-                  <Mail className="w-6 h-6 text-green-400" />
+                  <MessageSquare className="w-6 h-6 text-purple-400" />
                   <div>
-                    <p className="font-semibold">Email</p>
-                    <a href="mailto:info@dragonwise.ru" className="text-green-400 hover:text-green-300">
-                      info@dragonwise.ru
+                    <p className="font-semibold">Telegram</p>
+                    <a href="https://t.me/hyperlee" className="text-purple-400 hover:text-purple-300">
+                      @hyperlee
                     </a>
                   </div>
                 </div>
-
                 <div className="flex items-center gap-4">
-                  <MessageSquare className="w-6 h-6 text-purple-400" />
+                  <Mail className="w-6 h-6 text-green-400" />
                   <div>
-                    <p className="font-semibold">Telegram/WhatsApp</p>
-                    <a href="https://t.me/dragonwise" className="text-purple-400 hover:text-purple-300">
-                      @dragonwise
+                    <p className="font-semibold">Email</p>
+                    <a href="mailto:info@dragonwise.org" className="text-green-400 hover:text-green-300">
+                      info@dragonwise.org
                     </a>
                   </div>
                 </div>
@@ -433,46 +446,18 @@ const FabricsLanding = () => {
             {!isSubmitted ? (
               <>
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Получить предложение</h3>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form action="https://formspree.io/f/xnnzjlyp" method="POST" onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Имя
+                      Name
                     </label>
                     <input
                       type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Описание товара
-                    </label>
-                    <textarea
-                      name="description"
-                      value={formData.description}
-                      onChange={handleInputChange}
-                      rows={4}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                      placeholder="Опишите какую ткань вы ищете..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Телефон *
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
                       required
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                      placeholder="+7 (999) 123-45-67"
                     />
                   </div>
 
@@ -485,21 +470,22 @@ const FabricsLanding = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
+                      required
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Имя в Телеграме
+                      Message
                     </label>
-                    <input
-                      type="text"
-                      name="telegram"
-                      value={formData.telegram}
+                    <textarea
+                      name="message"
+                      value={formData.message}
                       onChange={handleInputChange}
+                      rows={4}
+                      required
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                      placeholder="@username"
                     />
                   </div>
 
@@ -508,14 +494,14 @@ const FabricsLanding = () => {
                       type="submit"
                       className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300"
                     >
-                      Отправить
+                      Send
                     </button>
                     <button
                       type="button"
                       onClick={() => setIsFormOpen(false)}
                       className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-3 px-6 rounded-lg transition-colors duration-300"
                     >
-                      Отмена
+                      Cancel
                     </button>
                   </div>
                 </form>
@@ -527,8 +513,7 @@ const FabricsLanding = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Спасибо!</h3>
-                <p className="text-gray-600">Мы скоро с вами свяжемся.</p>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Your request is submitted!</h3>
               </div>
             )}
           </div>
